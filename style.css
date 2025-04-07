@@ -1,0 +1,1046 @@
+/* ===== כללי ===== */
+:root {
+  --primary-color: #4a6bff;
+  --primary-dark: #3a50c2;
+  --secondary-color: #ff6b6b;
+  --accent-color: #ffd166;
+  --success-color: #06d6a0;
+  --warning-color: #ffc233;
+  --error-color: #ef476f;
+  --text-color: #333;
+  --text-light: #666;
+  --bg-color: #f8f9fa;
+  --bg-light: #ffffff;
+  --border-color: #e0e0e0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  direction: rtl;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+}
+
+/* ===== כותרת ===== */
+.header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* ===== אינדיקטור סנכרון ===== */
+.sync-status {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.synced {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.syncing {
+  background-color: var(--warning-color);
+  color: var(--text-color);
+}
+
+.not-synced {
+  background-color: var(--error-color);
+  color: white;
+}
+
+/* ===== מונה משתתפים ===== */
+.participants-counter {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 0.8rem 1.5rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.counter-icon {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.counter-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+#participants-count {
+  font-weight: 700;
+  color: var(--primary-color);
+  transition: color var(--transition-fast);
+}
+
+/* ===== סרגל התקדמות ===== */
+.progress-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  position: relative;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to left, var(--primary-color), var(--primary-dark));
+  width: 20%; /* יתעדכן בג'אווהסקריפט */
+  transition: width var(--transition-normal);
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  width: 20%;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.step-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  transition: color var(--transition-fast);
+}
+
+.progress-step.active .step-number {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.progress-step.active .step-label {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.progress-step.completed .step-number {
+  background-color: var(--success-color);
+  color: white;
+}
+
+/* ===== שלבים ===== */
+.step {
+  display: none;
+  animation: fadeIn var(--transition-normal);
+}
+
+.step.active {
+  display: block;
+}
+
+.step-content {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== טיימר ===== */
+.countdown-container {
+  background-color: rgba(74, 107, 255, 0.1);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.countdown-container p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.timer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+
+.timer-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: white;
+  border-radius: var(--border-radius-sm);
+  padding: 0.5rem;
+  min-width: 60px;
+  box-shadow: var(--shadow-sm);
+}
+
+.timer-label {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  color: var(--text-light);
+}
+
+/* ===== סרגל מחיר ===== */
+.price-bar-container {
+  margin: 2rem 0;
+}
+
+.price-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.original-price {
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+
+.current-price {
+  font-weight: 500;
+}
+
+.price-display {
+  font-weight: 700;
+  color: var(--primary-color);
+  transition: color var(--transition-fast);
+}
+
+.price-bar {
+  height: 10px;
+  background-color: var(--border-color);
+  border-radius: 5px;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.price-progress {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to left, var(--success-color), var(--primary-color));
+  width: 0%; /* יתעדכן בג'אווהסקריפט */
+  border-radius: 5px;
+  transition: width var(--transition-normal);
+}
+
+.price-milestones {
+  position: relative;
+  height: 30px;
+}
+
+.milestone {
+  position: absolute;
+  transform: translateX(50%);
+}
+
+.milestone-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  margin: 0 auto 5px;
+  transition: background-color var(--transition-fast);
+}
+
+.milestone-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.milestone.active .milestone-dot {
+  background-color: var(--primary-color);
+}
+
+/* ===== גלריית תמונות ===== */
+.product-gallery {
+  margin: 2rem 0;
+}
+
+.main-image {
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-md);
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.main-image img {
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform var(--transition-normal);
+}
+
+.thumbnail-images {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+  padding-bottom: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.thumbnail-images img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.thumbnail-images img:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.thumbnail-images img.active-thumbnail {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .thumbnail-images {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding-bottom: 0.5rem;
+  }
+  
+  .thumbnail-images img {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+  }
+}
+
+/* ===== תיאור מוצר ===== */
+.product-description {
+  margin: 2rem 0;
+}
+
+.product-description p {
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.2rem;
+  margin: 1.8rem 0;
+  background-color: rgba(74, 107, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+  border-radius: var(--border-radius-sm);
+}
+
+.feature:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: translateX(-5px);
+}
+
+.feature i {
+  color: var(--success-color);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.technical-specs {
+  margin: 2rem 0;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  border-right: 4px solid var(--primary-color);
+}
+
+.technical-specs h4 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.technical-specs ul {
+  list-style: none;
+  padding: 0;
+}
+
+.technical-specs li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+}
+
+.technical-specs li:last-child {
+  border-bottom: none;
+}
+
+.technical-specs li strong {
+  min-width: 120px;
+  display: inline-block;
+  color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .technical-specs li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  
+  .technical-specs li strong {
+    min-width: auto;
+  }
+}
+
+/* ===== כפתורים ===== */
+.cta-container {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.cta {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cta:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.cta:active {
+  transform: translateY(-1px);
+}
+
+.cta-note {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-md);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.secondary-btn:hover {
+  background-color: rgba(74, 107, 255, 0.1);
+}
+
+.simulate-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.simulate-btn {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.simulate-btn:hover {
+  background-color: #e6bc5c;
+}
+
+/* ===== טופס ===== */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-family: 'Heebo', sans-serif;
+  font-size: 1rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.radio-label input {
+  width: auto;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+/* ===== סיכום ===== */
+.summary-container {
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.summary-product {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  gap: 1.5rem;
+}
+
+.summary-product img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: var(--border-radius-sm);
+  background-color: white;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.summary-product-details {
+  flex: 1;
+}
+
+.summary-details, .summary-pricing {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.summary-user-details, .pricing-details {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.summary-detail, .pricing-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-label, .pricing-row span:first-child {
+  color: var(--text-light);
+}
+
+.detail-value, .pricing-row span:last-child {
+  font-weight: 500;
+}
+
+.pricing-row.total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-weight: 700;
+}
+
+.pricing-row.total span:last-child {
+  font-size: 1.2rem;
+}
+
+/* ===== תשלום ===== */
+.payment-container {
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.payment-amount {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.payment-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.payment-note {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* ===== אישור ===== */
+.confirmation-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.confirmation-icon {
+  font-size: 4rem;
+  color: var(--success-color);
+  margin-bottom: 1.5rem;
+  animation: scaleIn 0.5s ease;
+}
+
+.confirmation-message {
+  margin: 1.5rem 0;
+}
+
+.confirmation-details {
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.confirmation-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.confirmation-detail:last-child {
+  margin-bottom: 0;
+}
+
+.confirmation-actions {
+  margin-top: 2rem;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ===== הודעות ===== */
+.message {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  transform: translateY(150%);
+  transition: transform var(--transition-normal);
+  max-width: 300px;
+}
+
+.message.show {
+  transform: translateY(0);
+}
+
+.message.success {
+  background-color: var(--success-color);
+}
+
+.message.error {
+  background-color: var(--error-color);
+}
+
+/* ===== התראות ===== */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+}
+
+.notification {
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  background-color: white;
+  box-shadow: var(--shadow-md);
+  animation: slideIn var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.notification-icon {
+  font-size: 1.2rem;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.notification-message {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.notification.sync {
+  border-right: 4px solid var(--primary-color);
+}
+
+.notification.sync .notification-icon {
+  color: var(--primary-color);
+}
+
+.notification.success {
+  border-right: 4px solid var(--success-color);
+}
+
+.notification.success .notification-icon {
+  color: var(--success-color);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ===== התאמה למובייל ===== */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .step-content {
+    padding: 1.5rem;
+  }
+  
+  .timer {
+    gap: 0.5rem;
+  }
+  
+  .timer-item {
+    min-width: 50px;
+  }
+  
+  .timer-value {
+    font-size: 1.5rem;
+    min-width: 50px;
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .summary-product {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .main-image {
+    height: 250px;
+  }
+  
+  .cta {
+    width: 100%;
+  }
+  
+  .secondary-btn {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+}
+
+/* ===== אנימציות ===== */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ===== תוספות לסנכרון ===== */
+.syncing-indicator {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.syncing .syncing-indicator {
+  animation: spin 1s linear infinite;
+}
+
+/* ===== מצב טעינה ===== */
+.loading {
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 11;
+}
+
+/* ===== תצוגת מחיר ===== */
+.price-change {
+  animation: priceChange 1s;
+}
+
+@keyframes priceChange {
+  0% { color: var(--primary-color); }
+  50% { color: var(--success-color); }
+  100% { color: var(--primary-color); }
+}
+
+/* ===== תצוגת משתתפים ===== */
+.participants-change {
+  animation: participantsChange 1s;
+}
+
+@keyframes participantsChange {
+  0% { color: var(--primary-color); }
+  50% { color: var(--success-color); }
+  100% { color: var(--primary-color); }
+}
