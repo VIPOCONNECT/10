@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>רכישה קבוצתית - כורסת עיסוי</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <!-- כותרת ראשית -->
+  <header class="header">
+    <div class="header-content">
+      <h1>רכישה קבוצתית - כורסת עיסוי יוקרתית</h1>
+      <p>ככל שיותר אנשים מצטרפים, המחיר יורד!</p>
+    </div>
+  </header>
+
+  <!-- אינדיקטור סנכרון -->
+  <div id="sync-indicator" class="sync-status synced">
+    <i class="fas fa-check"></i> מסונכרן
+  </div>
+
+  <!-- מונה משתתפים -->
+  <div class="participants-counter">
+    <div class="counter-icon"><i class="fas fa-users"></i></div>
+    <div class="counter-text">כרגע משתתפים <span id="participants-count">0</span> אנשים בקמפיין</div>
+  </div>
+
+  <!-- סרגל התקדמות -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="progress-steps">
+      <div class="progress-step active" data-step="1">
+        <div class="step-number">1</div>
+        <div class="step-label">בית</div>
+      </div>
+      <div class="progress-step" data-step="2">
+        <div class="step-number">2</div>
+        <div class="step-label">פרטים</div>
+      </div>
+      <div class="progress-step" data-step="3">
+        <div class="step-number">3</div>
+        <div class="step-label">סיכום</div>
+      </div>
+      <div class="progress-step" data-step="4">
+        <div class="step-number">4</div>
+        <div class="step-label">תשלום</div>
+      </div>
+      <div class="progress-step" data-step="5">
+        <div class="step-number">5</div>
+        <div class="step-label">אישור</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- תוכן ראשי -->
+  <main class="container">
+    <!-- שלב 1 - דף הבית -->
+    <div id="step1" class="step active">
+      <div class="step-content">
+        <div class="product-info">
+          <h2>כורסת עיסוי פרימיום</h2>
+          
+          <!-- טיימר -->
+          <div class="countdown-container">
+            <p>הקמפיין מסתיים בעוד:</p>
+            <div class="timer">
+              <div class="timer-item">
+                <span class="timer-value" id="days">00</span>
+                <span class="timer-label">ימים</span>
+              </div>
+              <div class="timer-item">
+                <span class="timer-value" id="hours">00</span>
+                <span class="timer-label">שעות</span>
+              </div>
+              <div class="timer-item">
+                <span class="timer-value" id="minutes">00</span>
+                <span class="timer-label">דקות</span>
+              </div>
+              <div class="timer-item">
+                <span class="timer-value" id="seconds">00</span>
+                <span class="timer-label">שניות</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- סרגל מחיר -->
+          <div class="price-bar-container">
+            <div class="price-info">
+              <div class="original-price">מחיר מקורי: <span>5,000 ₪</span></div>
+              <div class="current-price">המחיר שלך: <span id="current-price" class="price-display">5,000 ₪</span></div>
+            </div>
+            <div class="price-bar">
+              <div class="price-progress"></div>
+              <div class="price-milestones">
+                <div class="milestone" style="left: 0%">
+                  <div class="milestone-dot"></div>
+                  <div class="milestone-label">0%</div>
+                </div>
+                <div class="milestone" style="left: 20%">
+                  <div class="milestone-dot"></div>
+                  <div class="milestone-label">5%</div>
+                </div>
+                <div class="milestone" style="left: 40%">
+                  <div class="milestone-dot"></div>
+                  <div class="milestone-label">10%</div>
+                </div>
+                <div class="milestone" style="left: 60%">
+                  <div class="milestone-dot"></div>
+                  <div class="milestone-label">15%</div>
+                </div>
+                <div class="milestone" style="left: 80%">
+                  <div class="milestone-dot"></div>
+                  <div class="milestone-label">20%</div>
+                </div>
+                <div class="milestone" style="left: 100%">
+                  <div class="milestone-dot"></div>
+                  <div class="milestone-label">25%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- גלריית תמונות -->
+          <div class="product-gallery">
+            <div class="main-image">
+              <img id="main-product-image" src="images/1.webp" alt="כורסת עיסוי">
+            </div>
+            <div class="thumbnail-images">
+              <img src="images/1.webp" alt="כורסת עיסוי - תמונה 1" onclick="changeMainImage(this.src)" class="active-thumbnail">
+              <img src="images/2.webp" alt="כורסת עיסוי - תמונה 2" onclick="changeMainImage(this.src)">
+              <img src="images/3.webp" alt="כורסת עיסוי - תמונה 3" onclick="changeMainImage(this.src)">
+              <img src="images/4.webp" alt="כורסת עיסוי - תמונה 4" onclick="changeMainImage(this.src)">
+              <img src="images/5.webp" alt="כורסת עיסוי - תמונה 5" onclick="changeMainImage(this.src)">
+              <img src="images/6.webp" alt="כורסת עיסוי - תמונה 6" onclick="changeMainImage(this.src)">
+            </div>
+          </div>
+          
+          <!-- מידע על המוצר -->
+          <div class="product-description">
+            <h3>תיאור המוצר</h3>
+            <p>כורסת העיסוי הפרימיום שלנו מציעה חוויית עיסוי מקצועית בנוחות ביתכם. עם 8 תוכניות עיסוי שונות, חימום מובנה וטכנולוגיית לחץ אוויר מתקדמת, הכורסה מספקת עיסוי מקיף לכל הגוף.</p>
+            
+            <p>הכורסה מעוצבת בסגנון ארגונומי המתאים לכל מבנה גוף, עם ריפוד עבה ונוח המושלם בחומרים איכותיים העמידים לאורך זמן. המנועים השקטים והחזקים מבטיחים עיסוי אפקטיבי בכל רמת עוצמה.</p>
+            
+            <div class="features">
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>8 תוכניות עיסוי שונות</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>מערכת חימום מובנית לגב ולרגליים</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>טכנולוגיית לחץ אוויר מתקדמת לעיסוי מדויק</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>שלט רחוק נוח לתפעול עם מסך LCD</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>חומרים איכותיים עמידים וקלים לניקוי</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>אחריות יצרן לשנתיים + אפשרות הרחבה</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>מערכת רמקולים Bluetooth מובנית</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span>התאמה אישית לכל מבנה גוף</span>
+              </div>
+            </div>
+            
+            <div class="technical-specs">
+              <h4>מפרט טכני</h4>
+              <ul>
+                <li><strong>מידות:</strong> 120 x 80 x 115 ס"מ (אורך x רוחב x גובה)</li>
+                <li><strong>משקל:</strong> 95 ק"ג</li>
+                <li><strong>צריכת חשמל:</strong> 200W</li>
+                <li><strong>חומר ריפוד:</strong> עור PU איכותי / בד מיקרופייבר</li>
+                <li><strong>צבעים זמינים:</strong> שחור, לבן, חום בהיר, אפור</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- כפתור הצטרפות -->
+          <div class="cta-container">
+            <button class="cta" onclick="showStep(2)">הצטרף לקמפיין עכשיו</button>
+            <div class="cta-note">* דמי רישום: 100 ₪ (יקוזזו מהמחיר הסופי)</div>
+          </div>
+          
+          <!-- כפתור סימולציה -->
+          <div class="simulate-container">
+            <button class="simulate-btn" onclick="addNewParticipant()">
+              <i class="fas fa-user-plus"></i> הדמיית הצטרפות משתתף
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- שלב 2 - פרטי משתמש -->
+    <div id="step2" class="step">
+      <div class="step-content">
+        <h2>פרטי המשתתף</h2>
+        <form id="user-details-form" onsubmit="event.preventDefault(); submitUserDetails();">
+          <div class="form-group">
+            <label for="first-name">שם פרטי *</label>
+            <input type="text" id="first-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="last-name">שם משפחה *</label>
+            <input type="text" id="last-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">טלפון נייד *</label>
+            <input type="tel" id="phone" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">דואר אלקטרוני *</label>
+            <input type="email" id="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="city">עיר *</label>
+            <input type="text" id="city" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="street">רחוב *</label>
+            <input type="text" id="street" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="house-number">מספר בית *</label>
+            <input type="text" id="house-number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="notes">הערות</label>
+            <textarea id="notes"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>שיטת משלוח *</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="delivery-method" value="delivery" checked>
+                <span>משלוח עד הבית (+ 150 ₪)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="delivery-method" value="pickup">
+                <span>איסוף עצמי</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="secondary-btn" onclick="showStep(1)">חזרה</button>
+            <button type="submit" class="cta">המשך לסיכום</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- שלב 3 - סיכום -->
+    <div id="step3" class="step">
+      <div class="step-content">
+        <h2>סיכום הזמנה</h2>
+        
+        <div class="summary-container">
+          <div class="summary-product">
+            <img src="images/1.webp" alt="כורסת עיסוי">
+            <div class="summary-product-details">
+              <h3>כורסת עיסוי פרימיום</h3>
+              <div class="summary-price">
+                <span id="summary-price" class="price-display">5,000 ₪</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="summary-details">
+            <h3>פרטי המשתתף</h3>
+            <div class="summary-user-details">
+              <div class="summary-detail">
+                <span class="detail-label">שם מלא:</span>
+                <span id="summary-name" class="detail-value"></span>
+              </div>
+              <div class="summary-detail">
+                <span class="detail-label">טלפון:</span>
+                <span id="summary-phone" class="detail-value"></span>
+              </div>
+              <div class="summary-detail">
+                <span class="detail-label">דוא"ל:</span>
+                <span id="summary-email" class="detail-value"></span>
+              </div>
+              <div class="summary-detail">
+                <span class="detail-label">כתובת:</span>
+                <span id="summary-address" class="detail-value"></span>
+              </div>
+              <div class="summary-detail">
+                <span class="detail-label">שיטת משלוח:</span>
+                <span id="summary-delivery" class="detail-value"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="summary-pricing">
+            <h3>פירוט תשלום</h3>
+            <div class="pricing-details">
+              <div class="pricing-row">
+                <span>מחיר מוצר:</span>
+                <span id="product-price" class="price-display">5,000 ₪</span>
+              </div>
+              <div class="pricing-row" id="delivery-price-row">
+                <span>עלות משלוח:</span>
+                <span id="delivery-price">150 ₪</span>
+              </div>
+              <div class="pricing-row">
+                <span>דמי רישום:</span>
+                <span id="registration-fee">100 ₪</span>
+              </div>
+              <div class="pricing-row total">
+                <span>סה"כ לתשלום:</span>
+                <span id="total-price" class="price-display">5,250 ₪</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" onclick="showStep(2)">עריכת פרטים</button>
+          <button type="button" class="cta" onclick="showStep(4)">המשך לתשלום</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- שלב 4 - תשלום -->
+    <div id="step4" class="step">
+      <div class="step-content">
+        <h2>תשלום</h2>
+        
+        <div class="payment-container">
+          <div class="payment-amount">
+            <h3>סכום לתשלום:</h3>
+            <div class="payment-price">
+              <span id="payment-price" class="price-display">5,250 ₪</span>
+            </div>
+          </div>
+          
+          <div class="payment-form">
+            <div class="form-group">
+              <label for="card-number">מספר כרטיס *</label>
+              <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expiry-date">תוקף *</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5">
+              </div>
+              
+              <div class="form-group">
+                <label for="cvv">CVV *</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="card-holder">שם בעל הכרטיס *</label>
+              <input type="text" id="card-holder">
+            </div>
+            
+            <div class="form-group">
+              <label for="id-number">מספר ת.ז *</label>
+              <input type="text" id="id-number" maxlength="9">
+            </div>
+          </div>
+          
+          <div class="payment-note">
+            <p>* זהו תשלום סימולציה בלבד. לא יתבצע חיוב אמיתי.</p>
+            <p>* דמי הרישום בסך 100 ₪ יקוזזו מהמחיר הסופי.</p>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" onclick="showStep(3)">חזרה</button>
+          <button type="button" class="cta" onclick="simulatePayment()">בצע תשלום</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- שלב 5 - אישור -->
+    <div id="step5" class="step">
+      <div class="step-content">
+        <div class="confirmation-container">
+          <div class="confirmation-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          
+          <h2>ההרשמה הושלמה בהצלחה!</h2>
+          
+          <div class="confirmation-message">
+            <p>תודה שהצטרפת לקמפיין הרכישה הקבוצתית.</p>
+            <p>פרטי ההזמנה נשלחו לכתובת האימייל שלך.</p>
+            <p>אנו נעדכן אותך כאשר הקמפיין יסתיים ונתאם את המשלוח.</p>
+          </div>
+          
+          <div class="confirmation-details">
+            <div class="confirmation-detail">
+              <span class="detail-label">מספר הזמנה:</span>
+              <span id="order-number" class="detail-value"></span>
+            </div>
+            <div class="confirmation-detail">
+              <span class="detail-label">תאריך הזמנה:</span>
+              <span id="order-date" class="detail-value"></span>
+            </div>
+            <div class="confirmation-detail">
+              <span class="detail-label">סכום ששולם:</span>
+              <span id="paid-amount" class="detail-value">100 ₪</span>
+            </div>
+            <div class="confirmation-detail">
+              <span class="detail-label">יתרה לתשלום:</span>
+              <span id="remaining-amount" class="detail-value">5,150 ₪</span>
+            </div>
+          </div>
+          
+          <div class="confirmation-actions">
+            <button type="button" class="cta" onclick="showStep(1)">חזרה לדף הבית</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- הודעות למשתמש -->
+  <div id="message" class="message"></div>
+  
+  <!-- מיכל התראות -->
+  <div id="notification-container" class="notification-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
