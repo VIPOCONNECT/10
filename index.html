@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="אתר רכישה קבוצתית - מיועד למחשב בלבד">
+    <title>רכישה קבוצתית - מיועד למחשב בלבד</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- גופן Heebo מ-Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- הודעה למשתמשי מובייל -->
+    <div id="mobile-warning" style="display: none;">
+        <div class="warning-content">
+            <h2>האתר מיועד למחשב בלבד</h2>
+            <p>לחוויה מיטבית, אנא גלוש לאתר ממחשב נייח או נייד.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>רכישה קבוצתית</h1>
+                <p class="tagline">חוסכים יחד, קונים בחכמה</p>
+            </div>
+        </header>
+
+        <!-- סרגל התקדמות -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">מידע</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">פרטים</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">סיכום</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">תשלום</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- מיכל השלבים -->
+        <div class="steps-container">
+            <!-- שלב 1: דף נחיתה ומידע -->
+            <div id="step1" class="step active">
+                <div class="step-content">
+                    <h2 class="step-title">ברוכים הבאים לרכישה קבוצתית</h2>
+                    
+                    <div class="info-section">
+                        <div class="info-text">
+                            <h3>איך זה עובד?</h3>
+                            <p>רכישה קבוצתית מאפשרת לכם לחסוך כסף על ידי התארגנות משותפת לקניית מוצר או שירות. ככל שיותר אנשים מצטרפים, המחיר יורד!</p>
+                            
+                            <h3>היתרונות שלנו:</h3>
+                            <ul class="benefits-list">
+                                <li>חיסכון של עד 40% ממחיר השוק</li>
+                                <li>מוצרים איכותיים בבדיקה קפדנית</li>
+                                <li>תהליך רכישה פשוט ומאובטח</li>
+                                <li>אפשרות להזמין עבור חברים ומשפחה</li>
+                            </ul>
+                        </div>
+                        <div class="info-image">
+                            <img src="images/1.webp" alt="רכישה קבוצתית" class="feature-image">
+                        </div>
+                    </div>
+                    
+                    <div class="product-details">
+                        <h3>המוצר שלנו</h3>
+                        <div class="product-showcase">
+                            <div class="product-image">
+                                <img src="images/2.webp" alt="המוצר" class="product-img">
+                            </div>
+                            <div class="product-info">
+                                <h4>מחשב נייד DELL XPS 15</h4>
+                                <p class="product-description">מחשב נייד יוקרתי עם מעבד Intel Core i7, זיכרון 16GB RAM, כונן SSD בנפח 512GB ומסך 15.6 אינץ' ברזולוציית 4K.</p>
+                                <div class="price-table">
+                                    <div class="price-row">
+                                        <span>מחיר רגיל:</span>
+                                        <span class="original-price">₪6,999</span>
+                                    </div>
+                                    <div class="price-row">
+                                        <span>מחיר קבוצתי (5-9 משתתפים):</span>
+                                        <span class="group-price">₪5,999</span>
+                                    </div>
+                                    <div class="price-row highlight">
+                                        <span>מחיר קבוצתי (10+ משתתפים):</span>
+                                        <span class="group-price-best">₪4,999</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonials">
+                        <h3>לקוחות מספרים</h3>
+                        <div class="testimonial-container">
+                            <div class="testimonial">
+                                <div class="testimonial-content">
+                                    <p>"חסכתי מעל 1,500 ש"ח ברכישה הקבוצתית האחרונה. התהליך היה פשוט ומהיר!"</p>
+                                </div>
+                                <div class="testimonial-author">- יוסי כהן, תל אביב</div>
+                            </div>
+                            <div class="testimonial">
+                                <div class="testimonial-content">
+                                    <p>"הצטרפתי עם 3 חברים ויחד קיבלנו הנחה משמעותית. ממליצה בחום!"</p>
+                                </div>
+                                <div class="testimonial-author">- מיכל לוי, חיפה</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showStep(2)">להצטרפות לרכישה הקבוצתית</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שלב 2: הזנת פרטים אישיים -->
+            <div id="step2" class="step">
+                <div class="step-content">
+                    <h2 class="step-title">הזנת פרטים אישיים</h2>
+                    
+                    <div class="form-container">
+                        <form id="userDetailsForm" onsubmit="return false;">
+                            <div class="form-section">
+                                <h3>הפרטים שלך</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fullName">שם מלא *</label>
+                                        <input type="text" id="fullName" name="fullName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">דוא"ל *</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phone">טלפון נייד *</label>
+                                        <input type="tel" id="phone" name="phone" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">כתובת *</label>
+                                        <input type="text" id="address" name="address" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3>משתתפים נוספים</h3>
+                                <p class="form-hint">הוסף משתתפים נוספים לרכישה הקבוצתית וקבל הנחה גדולה יותר!</p>
+                                
+                                <div id="participants-container">
+                                    <!-- משתתפים נוספים יתווספו כאן דינמית -->
+                                </div>
+                                
+                                <div class="participants-summary">
+                                    <div class="participants-count">
+                                        <span>סה"כ משתתפים:</span>
+                                        <span id="total-participants">1</span>
+                                    </div>
+                                    <div class="participants-price">
+                                        <span>מחיר ליחידה:</span>
+                                        <span id="price-per-unit">₪5,999</span>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-secondary" id="add-participant" onclick="addNewParticipant()">
+                                    <span class="btn-icon">+</span> הוסף משתתף
+                                </button>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button type="button" class="btn btn-outline" onclick="showStep(1)">חזרה</button>
+                                <button type="button" class="btn btn-primary" onclick="submitUserDetails()">המשך לסיכום</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שלב 3: סיכום -->
+            <div id="step3" class="step">
+                <div class="step-content">
+                    <h2 class="step-title">סיכום הרכישה</h2>
+                    
+                    <div class="summary-container">
+                        <div class="summary-section">
+                            <h3>פרטי המזמין</h3>
+                            <div class="summary-details" id="user-summary">
+                                <!-- פרטי המשתמש יוצגו כאן -->
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>משתתפים נוספים</h3>
+                            <div class="summary-details" id="participants-summary">
+                                <!-- פרטי המשתתפים הנוספים יוצגו כאן -->
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>פרטי ההזמנה</h3>
+                            <div class="order-summary">
+                                <div class="product-summary">
+                                    <div class="product-image">
+                                        <img src="images/2.webp" alt="המוצר" class="summary-product-img">
+                                    </div>
+                                    <div class="product-details">
+                                        <h4>מחשב נייד DELL XPS 15</h4>
+                                        <div class="product-specs">
+                                            <p>מעבד: Intel Core i7</p>
+                                            <p>זיכרון: 16GB RAM</p>
+                                            <p>אחסון: 512GB SSD</p>
+                                            <p>מסך: 15.6" 4K</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-summary">
+                                    <div class="price-row">
+                                        <span>מספר יחידות:</span>
+                                        <span id="summary-units">1</span>
+                                    </div>
+                                    <div class="price-row">
+                                        <span>מחיר ליחידה:</span>
+                                        <span id="summary-price-per-unit">₪5,999</span>
+                                    </div>
+                                    <div class="price-row">
+                                        <span>הנחת כמות:</span>
+                                        <span id="summary-discount">₪0</span>
+                                    </div>
+                                    <div class="price-row total">
+                                        <span>סה"כ לתשלום:</span>
+                                        <span id="summary-total">₪5,999</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-outline" onclick="showStep(2)">חזרה לפרטים</button>
+                        <button type="button" class="btn btn-primary" onclick="showStep(4)">המשך לתשלום</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שלב 4: תשלום -->
+            <div id="step4" class="step">
+                <div class="step-content">
+                    <h2 class="step-title">תשלום מאובטח</h2>
+                    
+                    <div class="payment-container">
+                        <div class="payment-methods">
+                            <div class="payment-method active">
+                                <input type="radio" id="credit-card" name="payment-method" checked>
+                                <label for="credit-card">כרטיס אשראי</label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="paypal" name="payment-method">
+                                <label for="paypal">PayPal</label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="bit" name="payment-method">
+                                <label for="bit">Bit / העברה בנקאית</label>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-form">
+                            <form id="payment-form" onsubmit="return false;">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="card-number">מספר כרטיס *</label>
+                                        <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="card-name">שם בעל הכרטיס *</label>
+                                        <input type="text" id="card-name" name="card-name" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group half">
+                                        <label for="expiry-date">תוקף *</label>
+                                        <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="form-group half">
+                                        <label for="cvv">CVV *</label>
+                                        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-summary">
+                                    <div class="price-row total">
+                                        <span>סה"כ לתשלום:</span>
+                                        <span id="payment-total">₪5,999</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="secure-payment-notice">
+                                    <div class="secure-icon">🔒</div>
+                                    <p>התשלום מאובטח ומוצפן. הפרטים שלך לא יישמרו במערכת.</p>
+                                </div>
+                                
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-outline" onclick="showStep(3)">חזרה לסיכום</button>
+                                    <button type="button" class="btn btn-primary" onclick="simulatePayment()">בצע תשלום</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שלב תשלום הושלם (יוצג לאחר תשלום מוצלח) -->
+            <div id="step5" class="step">
+                <div class="step-content success-content">
+                    <div class="success-icon">✓</div>
+                    <h2 class="success-title">התשלום בוצע בהצלחה!</h2>
+                    <p class="success-message">תודה שהצטרפת לרכישה הקבוצתית. פרטי ההזמנה נשלחו לדוא"ל שלך.</p>
+                    
+                    <div class="order-confirmation">
+                        <h3>פרטי ההזמנה</h3>
+                        <div class="confirmation-details">
+                            <div class="confirmation-row">
+                                <span>מספר הזמנה:</span>
+                                <span id="order-number">GRP-12345</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span>תאריך:</span>
+                                <span id="order-date">08/04/2025</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span>סכום ששולם:</span>
+                                <span id="order-amount">₪5,999</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span>סטטוס:</span>
+                                <span class="status-confirmed">אושר</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-info">
+                        <h3>מידע על המשלוח</h3>
+                        <p>המוצר יישלח לכתובת שהזנת תוך 7-14 ימי עסקים.</p>
+                        <p>תוכל לעקוב אחר סטטוס ההזמנה באמצעות מספר ההזמנה והדוא"ל שלך.</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-primary" onclick="resetProcess()">חזרה לדף הבית</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- מערכת הודעות -->
+    <div id="message-container" class="message-container"></div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">רכישה קבוצתית</div>
+            <div class="footer-links">
+                <a href="#">תנאי שימוש</a>
+                <a href="#">מדיניות פרטיות</a>
+                <a href="#">צור קשר</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2025 רכישה קבוצתית. כל הזכויות שמורות.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
