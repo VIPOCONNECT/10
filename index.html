@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<!-- מערכת הפניות - גרסה 1.0 -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>רכישה קבוצתית חכמה - כורסת עיסוי</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- מסך "הצטרף רק עם הזמנה" -->
+  <div id="invite-only-screen" style="display: none;">
+    <div class="invite-container">
+      <img src="images/logo.png" alt="לוגו" class="logo">
+      <h2>רכישה קבוצתית בלעדית!</h2>
+      <p>כדי להצטרף לרכישה הקבוצתית, אתה צריך הזמנה מחבר שכבר משתתף.</p>
+      <p>בקש מחבר שכבר משתתף לשלוח לך קישור הזמנה, או השאר פרטים ונחזור אליך:</p>
+      
+      <form id="waitlist-form">
+        <input type="text" id="waitlist-name" placeholder="שם מלא" required>
+        <input type="tel" id="waitlist-phone" placeholder="מספר טלפון" required>
+        <button type="submit" class="btn-primary">הצטרף לרשימת המתנה</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- אלמנט הודעה -->
+  <div id="message" class="message"></div>
+  
+  <!-- כותרת ראשית -->
+  <div class="header">
+    <h1>רכישה קבוצתית - כורסת עיסוי</h1>
+    <p>ככל שמצרפים יותר רוכשים אתה יכול להוזיל את הקניה שלך</p>
+    
+    <!-- טיימר גלובלי -->
+    <div id="global-countdown" class="countdown-container">
+      <p>הקמפיין מסתיים בעוד:</p>
+      <div class="timer">
+        <div class="timer-item">
+          <div id="global-days" class="timer-value">00</div>
+          <div class="timer-label">ימים</div>
+        </div>
+        <div class="timer-item">
+          <div id="global-hours" class="timer-value">00</div>
+          <div class="timer-label">שעות</div>
+        </div>
+        <div class="timer-item">
+          <div id="global-minutes" class="timer-value">00</div>
+          <div class="timer-label">דקות</div>
+        </div>
+        <div class="timer-item">
+          <div id="global-seconds" class="timer-value">00</div>
+          <div class="timer-label">שניות</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="participants-counter">
+      <div class="counter-icon"><i class="fas fa-users"></i></div>
+      <div class="counter-text">
+        <span id="participants-count">200</span> משתתפים כבר נרשמו!
+      </div>
+      <button onclick="addNewParticipant()" class="simulate-btn">הדמיית הצטרפות משתתף</button>
+    </div>
+  </div>
+  
+  <!-- סרגל התקדמות -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-step" data-step="1">
+        <div class="step-number">1</div>
+        <div class="step-label">מידע</div>
+      </div>
+      <div class="progress-step" data-step="2">
+        <div class="step-number">2</div>
+        <div class="step-label">פרטים</div>
+      </div>
+      <div class="progress-step" data-step="3">
+        <div class="step-number">3</div>
+        <div class="step-label">סיכום</div>
+      </div>
+      <div class="progress-step" data-step="4">
+        <div class="step-number">4</div>
+        <div class="step-label">תשלום</div>
+      </div>
+      <div class="progress-step" data-step="5">
+        <div class="step-number">5</div>
+        <div class="step-label">אישור</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- שלב 1: מידע כללי -->
+  <div id="step1" class="step">
+    <div class="container">
+      <!-- הטיימר הוסר מכאן ועבר לכותרת הראשית כטיימר גלובלי -->
+      
+      <div class="product-info">
+        <div class="product-gallery">
+          <div class="main-image">
+            <img id="main-product-image" src="images/1.webp" alt="כורסת עיסוי">
+          </div>
+          <div class="thumbnail-images">
+            <img src="images/1.webp" alt="כורסת עיסוי - מבט קדמי" onclick="changeMainImage(this.src)">
+            <img src="images/2.webp" alt="כורסת עיסוי - מבט צד" onclick="changeMainImage(this.src)">
+            <img src="images/3.webp" alt="כורסת עיסוי - מבט אחורי" onclick="changeMainImage(this.src)">
+            <img src="images/4.webp" alt="כורסת עיסוי - פרטים" onclick="changeMainImage(this.src)">
+            <img src="images/5.webp" alt="כורסת עיסוי - שלט רחוק" onclick="changeMainImage(this.src)">
+            <img src="images/6.webp" alt="כורסת עיסוי - מצב הטיה" onclick="changeMainImage(this.src)">
+          </div>
+        </div>
+        
+        <div class="product-details">
+          <h2>כורסת עיסוי Luxury-9900</h2>
+          <p class="product-description">
+            כורסת עיסוי מקצועית עם 8 תוכניות עיסוי שונות, מערכת חימום מובנית ושלט אלחוטי לשליטה מלאה.
+            הכורסה מגיעה עם אחריות יבואן רשמי למשך שנתיים.
+          </p>
+          
+          <div class="price-info">
+            <div class="original-price">
+              <span>מחיר מקורי: </span>
+              <span class="price">₪7,000</span>
+            </div>
+            <div class="current-price">
+              <span>מחיר נוכחי: </span>
+              <span id="current-price" class="price highlight">₪5,000</span>
+            </div>
+            <div class="price-explanation">
+              <p>המחיר יורד ככל שיותר אנשים מצטרפים!</p>
+            </div>
+          </div>
+          
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>מספר משתתפים</th>
+                <th>מחיר</th>
+                <th>חיסכון</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0-100</td>
+                <td>₪5,000</td>
+                <td>₪2,000</td>
+              </tr>
+              <tr>
+                <td>101-200</td>
+                <td>₪4,500</td>
+                <td>₪2,500</td>
+              </tr>
+              <tr>
+                <td>201-300</td>
+                <td>₪4,000</td>
+                <td>₪3,000</td>
+              </tr>
+              <tr>
+                <td>301-400</td>
+                <td>₪3,500</td>
+                <td>₪3,500</td>
+              </tr>
+              <tr>
+                <td>401+</td>
+                <td>₪3,000</td>
+                <td>₪4,000</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <button class="cta" onclick="showStep(2)">הצטרפות לרכישה</button>
+          <button class="secondary-btn" onclick="document.getElementById('info-modal').classList.add('active')">מידע נוסף</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- שלב 2: מילוי פרטים -->
+  <div id="step2" class="step">
+    <div class="container">
+      <h2>מילוי פרטים אישיים</h2>
+      
+      <div class="participants-counter step-counter">
+        <div class="counter-icon"><i class="fas fa-users"></i></div>
+        <div class="counter-text">
+          <span id="participants-count-step2">125</span> משתתפים כבר נרשמו!
+        </div>
+        <button onclick="addNewParticipant()" class="simulate-btn">הדמיית הצטרפות משתתף</button>
+      </div>
+      
+      <form id="user-details-form" class="user-details-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name">שם פרטי *</label>
+            <input type="text" id="first-name" name="first-name" required>
+          </div>
+          <div class="form-group">
+            <label for="last-name">שם משפחה *</label>
+            <input type="text" id="last-name" name="last-name" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">טלפון נייד *</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="email">דוא"ל *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">עיר *</label>
+            <input type="text" id="city" name="city" required>
+          </div>
+          <div class="form-group">
+            <label for="street">רחוב *</label>
+            <input type="text" id="street" name="street" required>
+          </div>
+          <div class="form-group">
+            <label for="house-number">מספר בית *</label>
+            <input type="text" id="house-number" name="house-number" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="notes">הערות</label>
+          <textarea id="notes" name="notes"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>אפשרויות משלוח *</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="delivery-method" value="pickup" checked>
+              <span class="radio-text">איסוף עצמי (ללא עלות)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="delivery-method" value="delivery">
+              <span class="radio-text">משלוח (₪500)</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" onclick="showStep(1)">חזרה</button>
+          <button type="button" class="cta" onclick="submitUserDetails()">המשך</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- שלב 3: סיכום -->
+  <div id="step3" class="step">
+    <div class="container">
+      <h2>סיכום הזמנה</h2>
+      
+      <div class="participants-counter step-counter">
+        <div class="counter-icon"><i class="fas fa-users"></i></div>
+        <div class="counter-text">
+          <span id="participants-count-step3">125</span> משתתפים כבר נרשמו!
+        </div>
+        <button onclick="addNewParticipant()" class="simulate-btn">הדמיית הצטרפות משתתף</button>
+      </div>
+      
+      <div class="summary-container">
+        <div class="summary-product">
+          <img src="images/1.webp" alt="כורסת עיסוי" class="summary-image">
+          <div class="summary-product-details">
+            <h3>כורסת עיסוי Luxury-9900</h3>
+            <p>כורסת עיסוי מקצועית עם 8 תוכניות עיסוי שונות, מערכת חימום מובנית ושלט אלחוטי</p>
+          </div>
+        </div>
+        
+        <div class="summary-user-details">
+          <h3>פרטי הלקוח</h3>
+          <p><strong>שם מלא:</strong> <span id="summary-name"></span></p>
+          <p><strong>טלפון:</strong> <span id="summary-phone"></span></p>
+          <p><strong>דוא"ל:</strong> <span id="summary-email"></span></p>
+          <p><strong>כתובת:</strong> <span id="summary-address"></span></p>
+          <p><strong>אפשרות משלוח:</strong> <span id="summary-delivery"></span></p>
+        </div>
+        
+        <div class="summary-price">
+          <h3>סיכום מחירים</h3>
+          <div class="price-row">
+            <span>מחיר בסיס:</span>
+            <span>₪7,000</span>
+          </div>
+          <div class="price-row">
+            <span>הנחת רכישה קבוצתית:</span>
+            <span id="summary-discount">₪2,000</span>
+          </div>
+          <div class="price-row">
+            <span>מחיר לאחר הנחה:</span>
+            <span id="summary-price">₪5,000</span>
+          </div>
+          <div class="price-row">
+            <span>דמי משלוח:</span>
+            <span id="summary-shipping">₪50</span>
+          </div>
+          <div class="price-row total">
+            <span>סה"כ לתשלום:</span>
+            <span id="summary-total">₪5,050</span>
+          </div>
+        </div>
+        
+        <!-- אזור שיתוף והפניית חברים בשלב הסיכום -->
+        <div id="referral-section-step3" class="referral-box">
+          <h3>הזמן חברים וקבל 150 ₪ הנחה!</h3>
+          <p>על כל חבר שתזמין שירכוש את הכורסה, תקבל 150 ₪ הנחה ברכישה הבאה.</p>
+          
+          <div class="referral-link-container">
+            <label for="referral-link-step3">הקישור האישי שלך:</label>
+            <div class="copy-link-wrapper">
+              <input type="text" id="referral-link-step3" readonly>
+              <button id="copy-link-btn-step3" class="btn-copy" onclick="copyReferralLinkStep3()">העתק</button>
+            </div>
+          </div>
+          
+          <div class="share-buttons">
+            <p>שתף עם חברים:</p>
+            <a id="share-whatsapp-step3" href="#" target="_blank" class="btn-share whatsapp">
+              <i class="fab fa-whatsapp"></i> שתף בוואטסאפ
+            </a>
+            <a id="share-facebook-step3" href="#" target="_blank" class="btn-share facebook">
+              <i class="fab fa-facebook-f"></i> שתף בפייסבוק
+            </a>
+            <a id="share-email-step3" href="#" class="btn-share email">
+              <i class="fas fa-envelope"></i> שתף באימייל
+            </a>
+          </div>
+          
+          <div class="referral-stats" id="referral-stats-step3">
+            <p><strong>מספר חברים שהזמנת:</strong> <span id="referred-count-step3">0</span></p>
+            <p><strong>הנחה מצטברת:</strong> <span id="total-discount-step3">0</span> ₪</p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" onclick="showStep(2)">חזרה</button>
+          <button type="button" class="cta" onclick="showStep(4)">המשך לתשלום</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- שלב 4: תשלום -->
+  <div id="step4" class="step">
+    <div class="container">
+      <h2>תשלום סופי</h2>
+      <p>הגעת לשלב האחרון בתהליך – תשלום היתרה עבור הכורסה.</p>
+      
+      <div class="participants-counter step-counter">
+        <div class="counter-icon"><i class="fas fa-users"></i></div>
+        <div class="counter-text">
+          <span id="participants-count-step4">125</span> משתתפים כבר נרשמו!
+        </div>
+        <button onclick="addNewParticipant()" class="simulate-btn">הדמיית הצטרפות משתתף</button>
+      </div>
+
+      <div class="info-box highlight-box">
+        <p><strong>יתרה לתשלום:</strong> <span id="finalPayment" class="highlight">₪5,050</span></p>
+      </div>
+
+      <form id="credit-card-form" class="payment-form">
+        <h3>פרטי כרטיס אשראי</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="card-number">מספר כרטיס *</label>
+            <input type="text" id="card-number" name="card-number" placeholder="xxxx-xxxx-xxxx-xxxx" maxlength="19" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="card-holder">שם בעל הכרטיס *</label>
+            <input type="text" id="card-holder" name="card-holder" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expiry-date">תוקף *</label>
+            <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" maxlength="5" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="cvv">CVV *</label>
+            <input type="text" id="cvv" name="cvv" placeholder="xxx" maxlength="3" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="id-number">תעודת זהות *</label>
+            <input type="text" id="id-number" name="id-number" maxlength="9" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="payments">תשלומים</label>
+            <select id="payments" name="payments">
+              <option value="1">תשלום אחד</option>
+              <option value="3">3 תשלומים</option>
+              <option value="6">6 תשלומים</option>
+              <option value="12">12 תשלומים</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="payment-security">
+          <i class="fas fa-lock"></i>
+          <p>התשלום מאובטח ומוצפן בתקן PCI DSS</p>
+        </div>
+        
+        <button type="button" id="payment-button" class="cta" onclick="processPayment()">אישור תשלום</button>
+      </form>
+      
+      <div class="form-actions payment-actions">
+        <button type="button" class="secondary-btn" onclick="showStep(3)">חזרה</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- שלב 5: אישור -->
+  <div id="step5" class="step">
+    <div class="container">
+      <h2>תודה על ההזמנה!</h2>
+      <div class="info-box success-box">
+        <p><i class="fas fa-check-circle" style="font-size: 3rem; color: #4CAF50; margin-bottom: 1rem;"></i></p>
+        <p>התשלום התקבל בהצלחה.</p>
+        <p>המשלוח ייצא במסגרת הייבוא הקבוצתי – נעדכן אותך בהמשך על זמני האספקה.</p>
+        <p>פרטי ההזמנה נשלחו אליך למייל.</p>
+        <p class="highlight">תודה שבחרת להצטרף לקניה החכמה!</p>
+      </div>
+      
+      <!-- אזור שיתוף והפניית חברים -->
+      <div id="referral-section" class="referral-box">
+        <h3>הזמן חברים וקבל 150 ₪ הנחה!</h3>
+        <p>על כל חבר שתזמין שירכוש את הכורסה, תקבל 150 ₪ הנחה ברכישה הבאה.</p>
+        
+        <div class="referral-link-container">
+          <label for="referral-link">הקישור האישי שלך:</label>
+          <div class="copy-link-wrapper">
+            <input type="text" id="referral-link" readonly>
+            <button id="copy-link-btn" class="btn-copy" onclick="copyReferralLink()">העתק</button>
+          </div>
+        </div>
+        
+        <div class="share-buttons">
+          <p>שתף עם חברים:</p>
+          <a id="share-whatsapp" href="#" target="_blank" class="btn-share whatsapp">
+            <i class="fab fa-whatsapp"></i> שתף בוואטסאפ
+          </a>
+          <a id="share-facebook" href="#" target="_blank" class="btn-share facebook">
+            <i class="fab fa-facebook-f"></i> שתף בפייסבוק
+          </a>
+          <a id="share-email" href="#" class="btn-share email">
+            <i class="fas fa-envelope"></i> שתף באימייל
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- מודאל מידע נוסף -->
+  <div id="info-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-modal" class="close-modal">&times;</button>
+      <h2>מידע נוסף על הרכישה הקבוצתית</h2>
+      
+      <h3>מפרט כורסת העיסוי</h3>
+      <ul>
+        <li>כורסת עיסוי מקצועית דגם Luxury-9900</li>
+        <li>8 תוכניות עיסוי שונות</li>
+        <li>מערכת חימום מובנית</li>
+        <li>שלט אלחוטי לשליטה מלאה</li>
+        <li>מנגנון הטיה מתכוונן</li>
+        <li>ריפוד דמוי עור איכותי</li>
+        <li>אחריות יבואן רשמי למשך שנתיים</li>
+      </ul>
+      
+      <h3>שאלות נפוצות</h3>
+      <p><strong>מתי מתבצע המשלוח?</strong><br>המשלוח מתבצע תוך 14-21 ימי עסקים מרגע סיום הקמפיין.</p>
+      
+      <p><strong>האם ניתן לבטל את ההזמנה?</strong><br>ניתן לבטל את ההזמנה עד 14 יום מרגע הרכישה, בהתאם לחוק הגנת הצרכן.</p>
+      
+      <p><strong>האם המחיר כולל הרכבה?</strong><br>כן, המחיר כולל הרכבה בבית הלקוח.</p>
+      
+      <p><strong>מה קורה אם לא מגיעים למספר המשתתפים המינימלי?</strong><br>הקמפיין יתקיים בכל מקרה, אך המחיר יהיה בהתאם למספר המשתתפים שהצטרפו בפועל.</p>
+    </div>
+  </div>
+
+  <!-- איקון וואטסאפ צף לשירות לקוחות -->
+  <div class="whatsapp-float" onclick="openWhatsAppSupport()">
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">שירות לקוחות</span>
+  </div>
+  
+  <!-- כפתור ניהול -->
+  <div class="admin-float" onclick="window.location.href='admin.html'">
+    <i class="fas fa-cog"></i>
+    <span class="admin-tooltip">ניהול</span>
+  </div>
+  
+  <script src="script.js"></script>
+  <!-- הודעת העתקה מוצלחת -->
+  <div id="copy-success" class="copy-success-message">
+    הקישור הועתק בהצלחה!    
+  </div>
+</body>
+</html>

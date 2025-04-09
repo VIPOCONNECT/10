@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<!-- גרסה מתוקנת למובייל -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ניהול רכישה קבוצתית - כורסת עיסוי</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Heebo', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .login-form {
+      margin-top: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+      text-align: right;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    button {
+      background: linear-gradient(135deg, #4CAF50, #8BC34A);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background: linear-gradient(135deg, #43A047, #7CB342);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .error-message {
+      color: #f44336;
+      margin-top: 10px;
+    }
+    
+    .dashboard {
+      display: none;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .stat-card {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 10px;
+      text-align: center;
+    }
+    
+    .stat-card h3 {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .stat-card.primary {
+      border-top: 4px solid #4CAF50;
+    }
+    
+    .stat-card.secondary {
+      border-top: 4px solid #2196F3;
+    }
+    
+    .stat-card.warning {
+      border-top: 4px solid #FFC107;
+    }
+    
+    .stat-card.danger {
+      border-top: 4px solid #F44336;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: right;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background-color: #f8f9fa;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .btn-view, .btn-delete {
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .btn-view {
+      background-color: #2196F3;
+      color: white;
+    }
+    
+    .btn-delete {
+      background-color: #F44336;
+      color: white;
+    }
+    
+    .search-container {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .search-container input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    .search-container button {
+      width: auto;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #2196F3, #03A9F4);
+      margin-bottom: 20px;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .modal-close {
+      cursor: pointer;
+      font-size: 24px;
+      color: #555;
+    }
+    
+    .user-details {
+      margin-bottom: 20px;
+    }
+    
+    .user-details div {
+      margin-bottom: 10px;
+      display: flex;
+    }
+    
+    .user-details strong {
+      min-width: 150px;
+      display: inline-block;
+    }
+    
+    /* סגנונות ללשוניות */
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+      overflow-x: auto;
+    }
+    
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      color: #555;
+      position: relative;
+      transition: all 0.3s ease;
+      width: auto;
+    }
+    
+    .tab-btn.active {
+      color: #4CAF50;
+      font-weight: 700;
+    }
+    
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #4CAF50;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* סגנונות למחולל קודי הפניה */
+    .referral-generator {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .generator-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .generator-form .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .action-btn {
+      background: linear-gradient(135deg, #2196F3, #03A9F4);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 15px;
+      width: auto;
+      align-self: flex-end;
+    }
+    
+    .generated-code {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f5e9;
+      border-radius: 5px;
+      border-left: 4px solid #4CAF50;
+    }
+    
+    .code-display, .link-display {
+      display: flex;
+      margin: 10px 0;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .code-display span {
+      flex: 1;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .copy-btn {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-weight: 500;
+      width: auto;
+    }
+    
+    /* סגנונות להגדרות */
+    .settings-form {
+      max-width: 600px;
+      margin: 20px 0;
+    }
+    
+    .toggle-container {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    
+    .toggle-checkbox {
+      display: none;
+    }
+    
+    .toggle-label {
+      display: block;
+      width: 50px;
+      height: 24px;
+      border-radius: 12px;
+      background-color: #ccc;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s;
+    }
+    
+    .toggle-label::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      transition: transform 0.3s;
+    }
+    
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #4CAF50;
+    }
+    
+    .toggle-checkbox:checked + .toggle-label::after {
+      transform: translateX(26px);
+    }
+    
+    .setting-description {
+      color: #666;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    /* סגנונות לפרטי הפניה */
+    .referral-details {
+      margin-bottom: 20px;
+    }
+    
+    .referral-details div {
+      margin-bottom: 10px;
+      display: flex;
+    }
+    
+    .referral-details strong {
+      min-width: 150px;
+      display: inline-block;
+    }
+    
+    .referred-users-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    
+    .referred-user-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .referred-user-item:last-child {
+      border-bottom: none;
+    }
+    
+    .referred-user-item .user-name {
+      font-weight: 500;
+    }
+    
+    .referred-user-item .user-date {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .stats {
+        flex-direction: column;
+      }
+      
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      .search-container {
+        flex-direction: column;
+      }
+      
+      .login-container {
+        width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      
+      .modal-content {
+        width: 95%;
+        max-height: 90vh;
+      }
+      
+      .user-details div, .referral-details div {
+        flex-direction: column;
+      }
+      
+      .user-details strong, .referral-details strong {
+        margin-bottom: 5px;
+      }
+      
+      .container {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 20px;
+      }
+      
+      .btn-view, .btn-delete {
+        padding: 8px;
+        font-size: 12px;
+      }
+      
+      .generator-form {
+        flex-direction: column;
+      }
+      
+      .tabs {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- מסך התחברות -->
+  <div id="login-screen" class="login-container">
+    <h2>התחברות למערכת ניהול</h2>
+    <p>הזן את הסיסמה כדי לצפות בנתוני הנרשמים</p>
+    
+    <div class="login-form">
+      <div class="form-group">
+        <label for="password">סיסמה:</label>
+        <input type="password" id="password" placeholder="הזן סיסמה">
+      </div>
+      
+      <button id="login-btn">התחבר</button>
+      <p id="error-message" class="error-message"></p>
+    </div>
+  </div>
+  
+  <!-- לוח מחוונים -->
+  <div id="dashboard" class="dashboard container">
+    <h1>ניהול רכישה קבוצתית - כורסת עיסוי</h1>
+    
+    <!-- תפריט לשוניות -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="registrations">נרשמים</button>
+      <button class="tab-btn" data-tab="referrals">הפניות</button>
+      <button class="tab-btn" data-tab="settings">הגדרות</button>
+    </div>
+    
+    <!-- לשונית נרשמים -->
+    <div id="registrations-tab" class="tab-content active">
+      <!-- סטטיסטיקות -->
+      <div class="stats">
+      <div class="stat-card primary">
+        <h3>סה"כ נרשמים</h3>
+        <div id="total-registrations" class="value">0</div>
+      </div>
+      
+      <div class="stat-card secondary">
+        <h3>משלמים</h3>
+        <div id="total-paid" class="value">0</div>
+      </div>
+      
+      <div class="stat-card warning">
+        <h3>ממוצע מחיר</h3>
+        <div id="avg-price" class="value">₪0</div>
+      </div>
+      
+      <div class="stat-card danger">
+        <h3>סה"כ הכנסות</h3>
+        <div id="total-revenue" class="value">₪0</div>
+      </div>
+    </div>
+    
+    <!-- חיפוש וייצוא -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="חיפוש לפי שם, טלפון או אימייל...">
+      <button id="search-btn">חיפוש</button>
+    </div>
+    
+    <button id="export-btn" class="export-btn">ייצוא לקובץ Excel</button>
+    
+    <!-- טבלת נרשמים -->
+    <table id="registrations-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>שם מלא</th>
+          <th>טלפון</th>
+          <th>אימייל</th>
+          <th>עיר</th>
+          <th>תאריך רישום</th>
+          <th>סטטוס תשלום</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody id="registrations-body">
+        <!-- תוכן הטבלה יתמלא דינמית -->
+      </tbody>
+    </table>
+    </div>
+    
+    <!-- לשונית הפניות -->
+    <div id="referrals-tab" class="tab-content">
+      <h2>ניהול הפניות</h2>
+      
+      <!-- סטטיסטיקות הפניות -->
+      <div class="stats">
+        <div class="stat-card primary">
+          <h3>סה"כ הפניות</h3>
+          <div id="total-referrals" class="value">0</div>
+        </div>
+        <div class="stat-card secondary">
+          <h3>הפניות פעילות</h3>
+          <div id="active-referrals" class="value">0</div>
+        </div>
+        <div class="stat-card warning">
+          <h3>סה"כ הנחות</h3>
+          <div id="total-discounts" class="value">₪0</div>
+        </div>
+      </div>
+      
+      <!-- מחולל קודי הפניה -->
+      <div class="referral-generator">
+        <h3>יצירת קוד הפניה חדש</h3>
+        <div class="generator-form">
+          <div class="form-group">
+            <label for="referral-name">שם המשווק/שותף</label>
+            <input type="text" id="referral-name" placeholder="שם המשווק או השותף">
+          </div>
+          <div class="form-group">
+            <label for="referral-discount">סכום הנחה (₪)</label>
+            <input type="number" id="referral-discount" value="150">
+          </div>
+          <div class="form-group">
+            <label for="referral-prefix">קידומת לקוד (אופציונלי)</label>
+            <input type="text" id="referral-prefix" placeholder="לדוגמה: VIP" maxlength="5">
+          </div>
+          <button id="generate-referral-btn" class="action-btn">צור קוד הפניה</button>
+        </div>
+        
+        <div id="generated-code-container" style="display: none;" class="generated-code">
+          <h4>הקוד נוצר בהצלחה!</h4>
+          <div class="code-display">
+            <span id="generated-code"></span>
+            <button id="copy-code-btn" class="copy-btn">העתק</button>
+          </div>
+          <div class="referral-link-container">
+            <span>קישור להפניה:</span>
+            <div class="link-display">
+              <input type="text" id="referral-link" readonly>
+              <button id="copy-link-btn" class="copy-btn">העתק</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- טבלת הפניות -->
+      <h3>רשימת הפניות</h3>
+      <div class="search-container">
+        <input type="text" id="referrals-search" placeholder="חיפוש לפי שם, קוד או מזהה...">
+        <button id="referrals-search-btn">חיפוש</button>
+      </div>
+      
+      <table id="referrals-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>קוד הפניה</th>
+            <th>שם המשווק</th>
+            <th>תאריך יצירה</th>
+            <th>מספר הפניות</th>
+            <th>הנחה למפנה</th>
+            <th>סה"כ הנחות</th>
+            <th>פעולות</th>
+          </tr>
+        </thead>
+        <tbody id="referrals-body">
+          <!-- תוכן הטבלה יתמלא דינמית -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- לשונית הגדרות -->
+    <div id="settings-tab" class="tab-content">
+      <h2>הגדרות מערכת ההפניות</h2>
+      
+      <div class="settings-form">
+        <div class="form-group">
+          <label for="invite-only-mode">מצב הרשמה בהזמנה בלבד</label>
+          <div class="toggle-container">
+            <input type="checkbox" id="invite-only-mode" class="toggle-checkbox">
+            <label for="invite-only-mode" class="toggle-label"></label>
+          </div>
+          <p class="setting-description">כאשר מופעל, רק משתמשים עם קוד הפניה יוכלו להירשם לאתר</p>
+        </div>
+        
+        <div class="form-group">
+          <label for="default-discount">סכום הנחה ברירת מחדל (₪)</label>
+          <input type="number" id="default-discount" value="150">
+          <p class="setting-description">סכום ההנחה הסטנדרטי שיינתן עבור כל הפניה מוצלחת</p>
+        </div>
+        
+        <button id="save-settings-btn" class="action-btn">שמור הגדרות</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- מודל לצפייה בפרטי משתמש -->
+  <div id="user-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>פרטי משתמש</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      
+      <div id="user-details" class="user-details">
+        <!-- פרטי המשתמש יתמלאו דינמית -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- מודל לצפייה בפרטי הפניה -->
+  <div id="referral-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>פרטי הפניה</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      
+      <div id="referral-details" class="referral-details">
+        <!-- פרטי ההפניה יתמלאו דינמית -->
+      </div>
+      
+      <h3>משתמשים שהופנו</h3>
+      <div id="referred-users-list" class="referred-users-list">
+        <!-- רשימת המשתמשים שהופנו תתמלא דינמית -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // הגדרת סיסמה למערכת הניהול
+    const ADMIN_PASSWORD = '123456';
+    
+    // אלמנטים בדף
+    const loginScreen = document.getElementById('login-screen');
+    const dashboard = document.getElementById('dashboard');
+    const loginBtn = document.getElementById('login-btn');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('error-message');
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const exportBtn = document.getElementById('export-btn');
+    const registrationsBody = document.getElementById('registrations-body');
+    const userModal = document.getElementById('user-modal');
+    const userDetails = document.getElementById('user-details');
+    const modalClose = document.querySelector('.modal-close');
+    
+    // סטטיסטיקות
+    const totalRegistrationsElement = document.getElementById('total-registrations');
+    const totalPaidElement = document.getElementById('total-paid');
+    const avgPriceElement = document.getElementById('avg-price');
+    const totalRevenueElement = document.getElementById('total-revenue');
+    
+    // מערך לשמירת כל הנרשמים
+    let registrations = [];
+    
+    // פונקציה לאתחול הדף
+    function init() {
+      console.log('אתחול דף הניהול');
+      
+      // התאמה למובייל
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        document.body.classList.add('mobile-device');
+        console.log('זוהה מכשיר נייד');
+      }
+      
+      // בדיקה אם המשתמש כבר מחובר
+      const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+      console.log('סטטוס התחברות:', isLoggedIn);
+      if (isLoggedIn === 'true') {
+        showDashboard();
+      }
+      
+      // הוספת מאזינים ללשוניות
+      setupTabListeners();
+    }
+    
+    // הוספת מאזינים לאירועים
+      loginBtn.addEventListener('click', handleLogin);
+      passwordInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          handleLogin();
+        }
+      });
+      
+      searchBtn.addEventListener('click', filterRegistrations);
+      searchInput.addEventListener('keyup', filterRegistrations);
+      exportBtn.addEventListener('click', exportToExcel);
+      modalClose.addEventListener('click', closeModal);
+      
+      // טעינת נתונים מ-localStorage
+      loadRegistrationsData();
+    }
+    
+    // פונקציה לטיפול בהתחברות
+    function handleLogin() {
+      const password = passwordInput.value;
+      console.log('ניסיון התחברות עם סיסמה:', password);
+      
+      // בדיקה מדויקת של הסיסמה כמחרוזת
+      if (password === ADMIN_PASSWORD) {
+        console.log('התחברות הצליחה');
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        showDashboard();
+      } else {
+        console.log('התחברות נכשלה: סיסמה שגויה');
+        errorMessage.textContent = 'סיסמה שגויה. נסה שוב.';
+        passwordInput.value = '';
+      }
+    }
+    
+    // פונקציה להצגת לוח המחוונים
+    function showDashboard() {
+      console.log('מציג את לוח המחוונים');
+      loginScreen.style.display = 'none';
+      dashboard.style.display = 'block';
+      
+      // גלילה לראש הדף לאחר התחברות
+      window.scrollTo(0, 0);
+      
+      // טעינת נתונים ללשונית הפעילה
+      const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+      if (activeTab === 'registrations') {
+        loadRegistrationsData();
+      } else if (activeTab === 'referrals') {
+        loadReferralsData();
+      } else if (activeTab === 'settings') {
+        loadSettings();
+      }
+    }
+    
+    // פונקציה לטעינת נתוני הנרשמים מ-localStorage
+    function loadRegistrationsData() {
+      // איסוף כל הנתונים מ-localStorage
+      registrations = [];
+      
+      // בדיקה אם יש נתוני משתמשים ב-localStorage
+      const userDetailsStr = localStorage.getItem('userDetails');
+      if (userDetailsStr) {
+        try {
+          const userDetails = JSON.parse(userDetailsStr);
+          // הוספת תאריך רישום אם לא קיים
+          if (!userDetails.registrationDate) {
+            userDetails.registrationDate = new Date().toISOString();
+          }
+          // הוספת סטטוס תשלום אם לא קיים
+          if (!userDetails.paymentStatus) {
+            const paymentDetailsStr = localStorage.getItem('paymentDetails');
+            userDetails.paymentStatus = paymentDetailsStr ? 'שולם' : 'ממתין לתשלום';
+          }
+          registrations.push(userDetails);
+        } catch (e) {
+          console.error('שגיאה בטעינת נתוני משתמש:', e);
+        }
+      }
+      
+      // חיפוש נתוני משתמשים נוספים ב-localStorage
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('userDetails_')) {
+          try {
+            const userDetailsStr = localStorage.getItem(key);
+            const userDetails = JSON.parse(userDetailsStr);
+            // הוספת תאריך רישום אם לא קיים
+            if (!userDetails.registrationDate) {
+              userDetails.registrationDate = new Date().toISOString();
+            }
+            // הוספת סטטוס תשלום אם לא קיים
+            if (!userDetails.paymentStatus) {
+              const paymentKey = 'paymentDetails_' + key.split('_')[1];
+              const paymentDetailsStr = localStorage.getItem(paymentKey);
+              userDetails.paymentStatus = paymentDetailsStr ? 'שולם' : 'ממתין לתשלום';
+            }
+            registrations.push(userDetails);
+          } catch (e) {
+            console.error('שגיאה בטעינת נתוני משתמש:', e, key);
+          }
+        }
+      }
+      
+      // עדכון הסטטיסטיקות
+      updateStatistics();
+      
+      // הצגת הנתונים בטבלה
+      displayRegistrations(registrations);
+    }
+    
+    // פונקציה לעדכון הסטטיסטיקות
+    function updateStatistics() {
+      const totalRegistrations = registrations.length;
+      const totalPaid = registrations.filter(reg => reg.paymentStatus === 'שולם').length;
+      
+      // חישוב ממוצע מחיר והכנסות
+      let totalRevenue = 0;
+      registrations.forEach(reg => {
+        if (reg.paymentStatus === 'שולם') {
+          // אם יש מחיר ספציפי למשתמש זה
+          const price = reg.finalPrice || 4000; // ברירת מחדל אם אין מחיר ספציפי
+          totalRevenue += price;
+        }
+      });
+      
+      const avgPrice = totalPaid > 0 ? Math.round(totalRevenue / totalPaid) : 0;
+      
+      // עדכון התצוגה
+      totalRegistrationsElement.textContent = totalRegistrations;
+      totalPaidElement.textContent = totalPaid;
+      avgPriceElement.textContent = `₪${avgPrice.toLocaleString()}`;
+      totalRevenueElement.textContent = `₪${totalRevenue.toLocaleString()}`;
+    }
+    
+    // פונקציה להצגת הנרשמים בטבלה
+    function displayRegistrations(regs) {
+      registrationsBody.innerHTML = '';
+      
+      if (regs.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="8" style="text-align: center;">לא נמצאו נרשמים</td>`;
+        registrationsBody.appendChild(row);
+        return;
+      }
+      
+      regs.forEach((reg, index) => {
+        const row = document.createElement('tr');
+        
+        // פורמט תאריך
+        let formattedDate = 'לא ידוע';
+        if (reg.registrationDate) {
+          const date = new Date(reg.registrationDate);
+          formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        }
+        
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${reg.firstName || ''} ${reg.lastName || ''}</td>
+          <td>${reg.phone || ''}</td>
+          <td>${reg.email || ''}</td>
+          <td>${reg.city || ''}</td>
+          <td>${formattedDate}</td>
+          <td>${reg.paymentStatus || 'ממתין לתשלום'}</td>
+          <td class="action-buttons">
+            <button class="btn-view" data-index="${index}">צפייה</button>
+            <button class="btn-delete" data-index="${index}">מחיקה</button>
+          </td>
+        `;
+        
+        registrationsBody.appendChild(row);
+      });
+      
+      // הוספת מאזינים לכפתורי פעולה
+      document.querySelectorAll('.btn-view').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = this.getAttribute('data-index');
+          showUserDetails(registrations[index]);
+        });
+      });
+      
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = this.getAttribute('data-index');
+          deleteRegistration(index);
+        });
+      });
+    }
+    
+    // פונקציה לסינון הנרשמים לפי חיפוש
+    function filterRegistrations() {
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      if (!searchTerm) {
+        displayRegistrations(registrations);
+        return;
+      }
+      
+      const filteredRegistrations = registrations.filter(reg => {
+        return (
+          (reg.firstName && reg.firstName.toLowerCase().includes(searchTerm)) ||
+          (reg.lastName && reg.lastName.toLowerCase().includes(searchTerm)) ||
+          (reg.phone && reg.phone.includes(searchTerm)) ||
+          (reg.email && reg.email.toLowerCase().includes(searchTerm)) ||
+          (reg.city && reg.city.toLowerCase().includes(searchTerm))
+        );
+      });
+      
+      displayRegistrations(filteredRegistrations);
+    }
+    
+    // פונקציה להצגת פרטי משתמש במודל
+    function showUserDetails(user) {
+      userDetails.innerHTML = '';
+      
+      // יצירת שדות לכל המידע
+      const fields = [
+        { label: 'שם פרטי', value: user.firstName },
+        { label: 'שם משפחה', value: user.lastName },
+        { label: 'טלפון', value: user.phone },
+        { label: 'אימייל', value: user.email },
+        { label: 'עיר', value: user.city },
+        { label: 'רחוב', value: user.street },
+        { label: 'מספר בית', value: user.houseNumber },
+        { label: 'דירה', value: user.apartment },
+        { label: 'קומה', value: user.floor },
+        { label: 'כניסה', value: user.entrance },
+        { label: 'מיקוד', value: user.zipCode },
+        { label: 'הערות', value: user.notes },
+        { label: 'שיטת משלוח', value: user.deliveryMethod === 'regular' ? 'רגיל' : 'אקספרס' },
+        { label: 'סטטוס תשלום', value: user.paymentStatus || 'ממתין לתשלום' },
+        { label: 'תאריך רישום', value: user.registrationDate ? new Date(user.registrationDate).toLocaleString('he-IL') : 'לא ידוע' }
+      ];
+      
+      // הוספת שדות נוספים אם קיימים
+      if (user.paymentDetails) {
+        fields.push({ label: 'פרטי תשלום', value: JSON.stringify(user.paymentDetails) });
+      }
+      
+      // יצירת האלמנטים בדף
+      fields.forEach(field => {
+        if (field.value) {
+          const div = document.createElement('div');
+          div.innerHTML = `<strong>${field.label}:</strong> <span>${field.value}</span>`;
+          userDetails.appendChild(div);
+        }
+      });
+      
+      // הצגת המודל
+      userModal.style.display = 'flex';
+    }
+    
+    // פונקציה לסגירת המודל
+    function closeModal() {
+      userModal.style.display = 'none';
+    }
+    
+    // פונקציה למחיקת רישום
+    function deleteRegistration(index) {
+      if (confirm('האם אתה בטוח שברצונך למחוק רישום זה?')) {
+        // מחיקה מ-localStorage
+        const user = registrations[index];
+        
+        // מחיקה מהמערך
+        registrations.splice(index, 1);
+        
+        // עדכון הסטטיסטיקות והתצוגה
+        updateStatistics();
+        displayRegistrations(registrations);
+        
+        alert('הרישום נמחק בהצלחה');
+      }
+    }
+    
+    // פונקציה לייצוא הנתונים לאקסל
+    function exportToExcel() {
+      // יצירת CSV
+      let csv = 'מס.,שם פרטי,שם משפחה,טלפון,אימייל,עיר,רחוב,מספר בית,דירה,קומה,כניסה,מיקוד,הערות,שיטת משלוח,סטטוס תשלום,תאריך רישום\n';
+      
+      registrations.forEach((reg, index) => {
+        const deliveryMethod = reg.deliveryMethod === 'regular' ? 'רגיל' : 'אקספרס';
+        const date = reg.registrationDate ? new Date(reg.registrationDate).toLocaleString('he-IL') : '';
+        
+        csv += `${index + 1},${reg.firstName || ''},${reg.lastName || ''},${reg.phone || ''},${reg.email || ''},${reg.city || ''},${reg.street || ''},${reg.houseNumber || ''},${reg.apartment || ''},${reg.floor || ''},${reg.entrance || ''},${reg.zipCode || ''},${reg.notes || ''},${deliveryMethod},${reg.paymentStatus || 'ממתין לתשלום'},${date}\n`;
+      });
+      
+      // יצירת קובץ להורדה
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `נרשמים_לרכישה_קבוצתית_${new Date().toLocaleDateString()}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // פונקציה להגדרת מאזינים ללשוניות
+    function setupTabListeners() {
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // הסרת המצב הפעיל מכל הכפתורים והלשוניות
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // הוספת המצב הפעיל לכפתור וללשונית המתאימים
+          button.classList.add('active');
+          const tabId = button.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+          
+          // עדכון התוכן בהתאם ללשונית הנבחרת
+          if (tabId === 'referrals') {
+            loadReferralsData();
+          } else if (tabId === 'settings') {
+            loadSettings();
+          } else if (tabId === 'registrations') {
+            loadRegistrationsData();
+          }
+        });
+      });
+      
+      // הוספת מאזינים לכפתורי הפניות
+      if (document.getElementById('generate-referral-btn')) {
+        document.getElementById('generate-referral-btn').addEventListener('click', generateNewReferralCode);
+      }
+      
+      if (document.getElementById('save-settings-btn')) {
+        document.getElementById('save-settings-btn').addEventListener('click', saveReferralSettings);
+      }
+      
+      if (document.getElementById('copy-code-btn')) {
+        document.getElementById('copy-code-btn').addEventListener('click', function() {
+          copyToClipboard(document.getElementById('generated-code').textContent);
+        });
+      }
+      
+      if (document.getElementById('copy-link-btn')) {
+        document.getElementById('copy-link-btn').addEventListener('click', function() {
+          copyToClipboard(document.getElementById('referral-link').value);
+        });
+      }
+    }
+    
+    // פונקציה לטעינת נתוני הפניות
+    function loadReferralsData() {
+      // איפוס המשתנים
+      const referrals = [];
+      let totalReferrals = 0;
+      let activeReferrals = 0;
+      let totalDiscounts = 0;
+      
+      // סריקת כל ה-localStorage לחיפוש קודי הפניה
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        
+        // בדיקה אם זה קוד הפניה
+        if (key.startsWith('referral_')) {
+          try {
+            const referralData = JSON.parse(localStorage.getItem(key));
+            referrals.push(referralData);
+            
+            // עדכון הסטטיסטיקות
+            totalReferrals++;
+            if (referralData.active) activeReferrals++;
+            totalDiscounts += (referralData.referredUsers?.length || 0) * (referralData.discount || 150);
+          } catch (e) {
+            console.error('שגיאה בקריאת נתוני הפניה:', e);
+          }
+        }
+      }
+      
+      // עדכון הסטטיסטיקות בדף
+      document.getElementById('total-referrals').textContent = totalReferrals;
+      document.getElementById('active-referrals').textContent = activeReferrals;
+      document.getElementById('total-discounts').textContent = `₪${totalDiscounts}`;
+      
+      // הצגת ההפניות בטבלה
+      displayReferrals(referrals);
+    }
+    
+    // פונקציה להצגת ההפניות בטבלה
+    function displayReferrals(referrals) {
+      const referralsBody = document.getElementById('referrals-body');
+      referralsBody.innerHTML = '';
+      
+      if (referrals.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="8" style="text-align: center;">לא נמצאו קודי הפניה</td>`;
+        referralsBody.appendChild(row);
+        return;
+      }
+      
+      referrals.forEach((referral, index) => {
+        const row = document.createElement('tr');
+        const referredCount = referral.referredUsers?.length || 0;
+        const totalDiscount = referredCount * (referral.discount || 150);
+        const creationDate = new Date(referral.creationDate || Date.now()).toLocaleDateString('he-IL');
+        
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${referral.code}</td>
+          <td>${referral.name || 'לא צוין'}</td>
+          <td>${creationDate}</td>
+          <td>${referredCount}</td>
+          <td>₪${referral.discount || 150}</td>
+          <td>₪${totalDiscount}</td>
+          <td class="action-buttons">
+            <button class="btn-view" onclick="viewReferralDetails('${referral.code}')"><i class="fas fa-eye"></i></button>
+            <button class="btn-delete" onclick="deleteReferral('${referral.code}')"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        
+        referralsBody.appendChild(row);
+      });
+    }
+    
+    // פונקציה ליצירת קוד הפניה חדש
+    function generateNewReferralCode() {
+      const name = document.getElementById('referral-name').value || 'משווק כללי';
+      const discount = parseInt(document.getElementById('referral-discount').value) || 150;
+      const prefix = document.getElementById('referral-prefix').value || '';
+      
+      // יצירת קוד אקראי
+      const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+      const code = prefix ? `${prefix}-${randomPart}` : randomPart;
+      
+      // יצירת אובייקט ההפניה
+      const referral = {
+        code: code,
+        name: name,
+        discount: discount,
+        creationDate: new Date().toISOString(),
+        active: true,
+        referredUsers: []
+      };
+      
+      // שמירה ב-localStorage
+      localStorage.setItem(`referral_${code}`, JSON.stringify(referral));
+      
+      // הצגת הקוד למשתמש
+      document.getElementById('generated-code').textContent = code;
+      document.getElementById('referral-link').value = `${window.location.origin}${window.location.pathname.replace('admin.html', 'index.html')}?ref=${code}`;
+      document.getElementById('generated-code-container').style.display = 'block';
+      
+      // עדכון הטבלה
+      loadReferralsData();
+    }
+    
+    // פונקציה להעתקת טקסט ללוח
+    function copyToClipboard(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      
+      alert('הטקסט הועתק ללוח!');
+    }
+    
+    // פונקציה לטעינת הגדרות מערכת ההפניות
+    function loadSettings() {
+      // טעינת מצב הזמנה בלבד
+      const inviteOnlyMode = localStorage.getItem('inviteOnlyMode') === 'true';
+      document.getElementById('invite-only-mode').checked = inviteOnlyMode;
+      
+      // טעינת סכום ההנחה הסטנדרטי
+      const defaultDiscount = localStorage.getItem('defaultReferralDiscount') || '150';
+      document.getElementById('default-discount').value = defaultDiscount;
+    }
+    
+    // פונקציה לשמירת הגדרות מערכת ההפניות
+    function saveReferralSettings() {
+      // שמירת מצב הזמנה בלבד
+      const inviteOnlyMode = document.getElementById('invite-only-mode').checked;
+      localStorage.setItem('inviteOnlyMode', inviteOnlyMode.toString());
+      
+      // שמירת סכום ההנחה הסטנדרטי
+      const defaultDiscount = document.getElementById('default-discount').value;
+      localStorage.setItem('defaultReferralDiscount', defaultDiscount);
+      
+      alert('ההגדרות נשמרו בהצלחה!');
+    }
+    
+    // פונקציה להצגת פרטי הפניה
+    function viewReferralDetails(code) {
+      const referralData = JSON.parse(localStorage.getItem(`referral_${code}`));
+      if (!referralData) return;
+      
+      const referralDetails = document.getElementById('referral-details');
+      referralDetails.innerHTML = '';
+      
+      // יצירת שדות הפרטים
+      const fields = [
+        { label: 'קוד הפניה', value: referralData.code },
+        { label: 'שם המשווק', value: referralData.name || 'לא צוין' },
+        { label: 'תאריך יצירה', value: new Date(referralData.creationDate).toLocaleString('he-IL') },
+        { label: 'סכום הנחה', value: `₪${referralData.discount}` },
+        { label: 'מספר הפניות', value: referralData.referredUsers?.length || 0 },
+        { label: 'סטטוס', value: referralData.active ? 'פעיל' : 'לא פעיל' }
+      ];
+      
+      // יצירת האלמנטים בדף
+      fields.forEach(field => {
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${field.label}:</strong> <span>${field.value}</span>`;
+        referralDetails.appendChild(div);
+      });
+      
+      // הצגת רשימת המשתמשים שהופנו
+      const referredUsersList = document.getElementById('referred-users-list');
+      referredUsersList.innerHTML = '';
+      
+      if (!referralData.referredUsers || referralData.referredUsers.length === 0) {
+        referredUsersList.innerHTML = '<p>אין משתמשים שהופנו עדיין.</p>';
+      } else {
+        referralData.referredUsers.forEach(userId => {
+          try {
+            const userData = JSON.parse(localStorage.getItem(`userDetails_${userId}`));
+            if (userData) {
+              const userItem = document.createElement('div');
+              userItem.className = 'referred-user-item';
+              userItem.innerHTML = `
+                <span class="user-name">${userData.firstName} ${userData.lastName}</span>
+                <span class="user-date">${new Date(userData.registrationDate).toLocaleDateString('he-IL')}</span>
+              `;
+              referredUsersList.appendChild(userItem);
+            }
+          } catch (e) {
+            console.error('שגיאה בקריאת פרטי משתמש:', e);
+          }
+        });
+      }
+      
+      // הצגת המודל
+      document.getElementById('referral-modal').style.display = 'flex';
+    }
+    
+    // פונקציה למחיקת קוד הפניה
+    function deleteReferral(code) {
+      if (confirm('האם אתה בטוח שברצונך למחוק קוד הפניה זה?')) {
+        localStorage.removeItem(`referral_${code}`);
+        loadReferralsData();
+        alert('קוד ההפניה נמחק בהצלחה!');
+      }
+    }
+    
+    // סגירת המודל כאשר לוחצים מחוץ לתוכן
+    window.onclick = function(event) {
+      if (event.target === userModal) {
+        closeModal();
+      } else if (event.target === document.getElementById('referral-modal')) {
+        document.getElementById('referral-modal').style.display = 'none';
+      }
+    };
+    
+    // אתחול הדף
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
